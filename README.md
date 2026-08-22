@@ -25,6 +25,7 @@ Gioco di **deduzione sociale** per 4–8 giocatori, 20 minuti. Due fazioni nemic
 | 09 | `09-schede-ruoli-simboli.pdf` | 4 schede di gioco fronte/retro (ruoli+foto / simboli) | duplex, flip bordo lungo |
 | 10 | `10-guida-narratore.pdf` | guida illustrata 4 pagine (regole complete, foto componenti) | semplice |
 | 11 | `11-scatola-copertina.pdf` | wrap copertina scatola 180×130×40 mm (fronte artwork / retro regole) | adesivo o 200 g |
+| 12 | `12-fasi-segnalini.pdf` | segnalini fase: interrogatorio / protezione / azione + puntatore FASE CORRENTE | semplice |
 
 ### `console/` — la console del narratore
 `Deduco-console.html` — registro digitale del narratore: guida passo-passo, traccia audio narrante, ferite, registro interrogatori, gettoni bruciati, tabellone. Si apre nel browser (anche dal telefono), funziona offline.
