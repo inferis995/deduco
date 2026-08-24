@@ -98,19 +98,19 @@ a:visited,a:active{color:inherit}
 .hero-bg::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 180px 40px rgba(5,7,10,.85)}
 .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;gap:26px}
-  /* mobile: testo IN PRIMO, carte sotto compatte (niente carte giganti in cima) */
-  .hero-copy{order:0}
-  .hero-art{order:2;margin:4px 0 0;padding:0 18px}
-  .deck{width:min(230px,60vw);--fanA:7%;--rot:5deg}
-  .kicker{margin-bottom:16px}
-  h1{font-size:clamp(44px,12vw,64px);line-height:.98;margin-bottom:10px}
-  .hero-copy p.lead{font-size:15.5px;line-height:1.5;margin-bottom:18px}
+  .hero-grid{grid-template-columns:1fr;gap:24px}
+  /* mobile: carte IN CIMA con animazione d'ingresso, poi il testo pulito */
+  .hero-art{order:-1;margin:-6px 0 6px;padding:0 16px}
+  .hero-copy{order:0;text-align:left}
+  .deck{width:min(250px,64vw);--fanA:9%;--rot:7deg}
+  .kicker{margin-bottom:14px}
+  h1{font-size:clamp(40px,11vw,60px);line-height:1.0;margin-bottom:10px}
+  .hero-copy p.lead{font-size:15px;line-height:1.55;margin-bottom:18px;text-wrap:pretty}
   .hero-cta{gap:10px}
   .hero-cta .btn{padding:13px 18px;font-size:11.5px}
   .hero-meta{margin-top:18px;gap:10px}
   .hm{font-size:10px}
-  .cap{margin-top:12px}
+  .cap{margin-top:10px}
   .scroll-hint{display:none}
 }
 
