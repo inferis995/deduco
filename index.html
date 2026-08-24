@@ -540,7 +540,7 @@ footer{border-top:1px solid rgba(201,162,39,.2);padding:34px 0 40px;background:r
           <span>La voce che guida la partita: apre nel browser, anche offline · v1.8</span>
         </span>
       </a>
-      <a class="go" href="pdf/Deduco-console.zip" download>Scarica<span class="ar">↓</span></a>
+      <a class="go" href="javascript:void(0)" id="consolaDown" aria-label="Scarica la console">Scarica<span class="ar">↓</span></a>
     </div>
     <style>
       .dl-console-hero{border:1px solid rgba(201,162,39,.45);border-radius:14px;background:linear-gradient(90deg,rgba(118,26,32,.18),rgba(13,16,23,.6) 55%);display:flex;align-items:stretch;gap:0;margin:0 0 22px;overflow:hidden}
@@ -550,6 +550,7 @@ footer{border-top:1px solid rgba(201,162,39,.2);padding:34px 0 40px;background:r
       .dl-console-hero .tx b{font-family:var(--caps);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--manila-hi)}
       .dl-console-hero .tx span{font-size:13px;color:#B6A88C;line-height:1.4}
       .dl-console-hero .go{flex:0 0 auto;align-self:center;margin-right:20px;font-family:var(--caps);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#0D1017;background:linear-gradient(180deg,var(--gold-hi),var(--gold));padding:13px 20px;border-radius:99px;text-decoration:none;font-weight:700;white-space:nowrap;cursor:pointer;box-shadow:0 5px 18px rgba(201,162,39,.4);transition:transform .1s,filter .15s,box-shadow .2s,-webkit-tap-highlight-color 0s}
+      .dl-console-hero .go.loading{background:linear-gradient(180deg,#b98f2a,#8a6d1a);opacity:.85;pointer-events:none}
       .dl-console-hero .go:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(201,162,39,.5)}
       .dl-console-hero .go:active{transform:scale(.93) translateY(1px);filter:brightness(.94);box-shadow:0 2px 8px rgba(201,162,39,.3)}
       .dl-console-hero .go:visited{color:#0D1017 !important}
@@ -676,6 +677,37 @@ addEventListener('scroll',()=>{ hd.style.boxShadow = scrollY>40 ? '0 10px 30px r
   addEventListener('scroll',upd,{passive:true});
   addEventListener('resize',upd);
   upd();
+})();
+
+// ============ CONSOLE: download FORZATO (Blob) — funziona anche dove download attr fallisce ============
+(function(){
+  const btn=document.getElementById('consolaDown');
+  if(!btn) return;
+  btn.addEventListener('click', async function(){
+    const orig=btn.innerHTML;
+    btn.classList.add('loading');
+    btn.innerHTML='Scarico…<span class="ar"></span>';
+    try{
+      // 1) scarica lo zip come stream
+      const res=await fetch('pdf/Deduco-console.zip',{cache:'no-cache'});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const blob=await res.blob();
+      // 2) crea URL temporaneo e forza il download col nome giusto
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='Deduco-console.zip';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),4000);
+      btn.classList.remove('loading');
+    }catch(e){
+      // fallback: se il Blob fallisce, apri direttamente lo zip (il browser lo salverà o mostrerà)
+      btn.innerHTML='Apri lo zip<span class="ar"></span>';
+      const a=document.createElement('a');
+      a.href='pdf/Deduco-console.zip'; a.download='Deduco-console.zip';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>{ btn.classList.remove('loading'); btn.innerHTML=orig; },3000);
+    }
+  });
 })();
 </script>
 </body>
