@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0D1017">
+<title>DEDUCO — Un mandante. Otto sospetti. · Print &amp; Play</title>
+<meta name="description" content="Gioco di deduzione sociale per 4–8 giocatori. Scarica, stampa, taglia, gioca. Print & Play completo: carte, gettoni, plance, guida e console del narratore.">
+<link rel="preconnect" href="">
+
+<style>
+@import url('assets/fnt/fnt.css');
+
+:root{
+  --desk:#0D1017; --desk2:#161C29;
+  --manila:#EBDFC0; --manila-hi:#F7EFDB; --manila-dim:#D3C098;
+  --ink:#241C14; --ink-soft:#6A5B45;
+  --gold:#C9A227; --gold-hi:#E8C55A; --gold-dim:#8a6d1a;
+  --red:#A62A31; --red-dim:#761A20; --civ:#d9b64a; --civ-dim:#a8862e;
+  --r:3px;
+  --serif:"EB Garamond",Georgia,serif;
+  --disp:"Cinzel Decorative",Georgia,serif;
+  --caps:"Cinzel",Georgia,serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0}
+body{
+  background:
+    radial-gradient(130% 90% at 50% -10%, #1E2740 0%, rgba(13,16,23,0) 60%),
+    repeating-linear-gradient(94deg, rgba(255,255,255,.012) 0 2px, rgba(0,0,0,0) 2px 6px),
+    var(--desk);
+  color:var(--manila);
+  font-family:var(--serif);
+  font-size:17px; line-height:1.5;
+  overflow-x:hidden;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+::selection{background:var(--gold);color:#0a0a0a}
+
+/* ============ TOP BAR ============ */
+header{position:fixed;inset:0 0 auto 0;z-index:90;width:100%;overflow:hidden;background:rgba(13,16,23,.82);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,162,39,.22)}
+.nav{display:flex;align-items:center;gap:18px;height:58px;max-width:1120px;margin:0 auto;padding:0 22px;flex-wrap:nowrap}
+.logo{font-family:var(--disp);font-size:19px;color:var(--manila-hi);letter-spacing:.08em;display:flex;align-items:center;gap:10px}
+.logo .fleur{color:var(--gold);font-size:15px}
+.nav a{font-family:var(--caps);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#A2937A;text-decoration:none;transition:color .2s}
+.nav a:hover{color:var(--gold-hi)}
+.nav .cta{margin-left:auto;flex:0 0 auto;white-space:nowrap;font-family:var(--caps);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#0D1017;background:linear-gradient(180deg,var(--gold-hi),var(--gold));padding:9px 16px;border-radius:var(--r);text-decoration:none;font-weight:700;box-shadow:0 4px 18px rgba(201,162,39,.35);transition:transform .15s,box-shadow .2s}
+.nav .cta:hover{transform:translateY(-1px);box-shadow:0 8px 26px rgba(201,162,39,.5)}
+@media(max-width:760px){.nav a:not(.cta){display:none}}
+@media(max-width:760px){
+  .nav{gap:10px;padding:0 14px}
+  .nav .logo{font-size:17px}
+  .nav .cta{padding:8px 12px;font-size:10.5px;letter-spacing:.12em}
+}
+@media(max-width:520px){
+  .wrap{padding:0 16px}
+  .nav{padding:0 12px;gap:8px}
+  section{padding:64px 0}
+  .hero{padding-top:92px}
+  .hero-meta{gap:18px}
+  .comp-grid{gap:10px}
+  .comp{padding:12px;gap:10px}
+  .comp .ic{flex:0 0 46px;height:46px}
+  .dl{padding:13px 12px;gap:10px}
+  .dl .tag{flex-basis:34px;height:40px}
+  .dl b{white-space:normal;font-size:11.5px}
+  .fasi{gap:12px}
+  .fase{padding:20px 18px}
+  .cards{gap:10px}
+  .pcard .nm{font-size:9.5px;letter-spacing:.12em;padding:26px 8px 8px}
+  .fax{height:90px}
+  .fax .seal{width:70px;height:70px;font-size:24px}
+}
+
+/* link mai viola/visti-diversi: uniformità totale */
+a{-webkit-tap-highlight-color:transparent}
+a:visited,a:active{color:inherit}
+.btn:visited{color:#0D1017 !important}
+.btn.gold:visited,.btn.gold:active{color:#0D1017 !important;background:linear-gradient(180deg,var(--gold),var(--gold-dim)) !important}
+.btn.ghost:visited{color:var(--manila) !important}
+.nav .cta:visited,.nav .cta:active{color:#0D1017 !important;background:linear-gradient(180deg,var(--gold-hi),var(--gold)) !important}
+.btn:active{transform:translateY(1px) scale(.985)}
+.dl:visited .tx b{color:var(--manila-hi)}
+.dl-console-hero:visited .go{color:#0D1017 !important}
+.dl-console-hero:active{transform:translateY(1px)}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100svh;display:grid;align-items:center;padding:110px 0 70px;overflow:hidden}
+/* spartiacque rosso/blu come l'artwork */
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg::before{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(100deg, rgba(118,26,32,.32) 0%, rgba(118,26,32,0) 44%),
+    linear-gradient(260deg, rgba(27,58,92,.38) 0%, rgba(27,58,92,0) 46%),
+    radial-gradient(90% 70% at 50% 110%, rgba(201,162,39,.10), rgba(0,0,0,0) 60%);}
+/* vignetta pergamena bruciata */
+.hero-bg::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 180px 40px rgba(5,7,10,.85)}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:22px}
+  /* su mobile: PRIMA le carte, poi il copy (impatto immediato) */
+  .hero-art{order:-1;margin:-14px 0 4px;padding:0 18px}
+  .hero-copy p.lead{font-size:16px;margin-bottom:22px}
+  .tagline{margin-bottom:14px}
+  .hero-meta{margin-top:22px}
+  .scroll-hint{display:none}
+}
+
+.kicker{font-family:var(--caps);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.kicker::before{content:"";width:34px;height:1px;background:var(--gold)}
+h1{font-family:var(--disp);font-weight:900;font-size:clamp(52px,8.5vw,104px);line-height:.95;margin:0 0 8px;color:var(--manila-hi);text-shadow:0 3px 0 rgba(0,0,0,.45), 0 14px 50px rgba(0,0,0,.5)}
+h1 .dual{color:var(--gold-hi)}
+.tagline{font-size:clamp(19px,2.4vw,26px);font-style:italic;color:var(--manila-dim);margin:0 0 26px}
+.tagline b{color:var(--manila-hi);font-style:normal}
+.hero-copy p.lead{font-size:17.5px;color:#C9BA9C;max-width:52ch;margin:0 0 34px}
+.hero-copy p.lead em{color:var(--manila-hi)}
+
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--caps);font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:17px 30px;border-radius:var(--r);display:inline-flex;align-items:center;gap:10px;transition:transform .15s,box-shadow .2s,background .2s}
+.btn.gold{background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:#0D1017;font-weight:700;box-shadow:0 6px 24px rgba(201,162,39,.4)}
+.btn.gold:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(201,162,39,.55)}
+.btn.ghost{border:1px solid rgba(235,223,192,.35);color:var(--manila)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold-hi)}
+.btn .ar{font-family:var(--serif);font-size:15px}
+
+.hero-meta{display:flex;gap:26px;margin-top:36px;flex-wrap:wrap}
+.hm{font-family:var(--caps)}
+.hm b{display:block;font-size:20px;color:var(--manila-hi);letter-spacing:.04em}
+.hm span{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#8A7C66}
+
+/* carta flottante hero */
+.hero-art{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hero-art::before{content:"";position:absolute;inset:-8% -14%;
+  background:
+    linear-gradient(115deg, rgba(118,26,32,.34), transparent 42%),
+    linear-gradient(245deg, rgba(168,134,46,.26), transparent 46%),
+    radial-gradient(60% 55% at 50% 42%, rgba(201,162,39,.14), transparent 70%);
+  filter:blur(2px);z-index:0}
+/* ventaglio carte: spread ampio, tutte leggibili, ombre coerenti */
+.deck{position:relative;width:min(400px,86vw);aspect-ratio:63/88;z-index:1;margin:0 auto;--fanA:16%;--rot:9deg}
+.deck .card3d{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;overflow:hidden;border:1px solid rgba(201,162,39,.4);will-change:transform;
+  box-shadow:0 18px 44px rgba(0,0,0,.55),0 4px 12px rgba(0,0,0,.4)}
+.deck .card3d img{width:100%;height:100%;object-fit:cover;display:block}
+/* tre carte sovrapposte con fan: la prima esce a sinistra, la terza a destra */
+.deck{--fanA:16%;--rot:9deg}
+.deck .c1{transform:rotate(calc(var(--rot)*-1)) translate(calc(var(--fanA)*-1),-3%);z-index:0}
+.deck .c2{transform:rotate(var(--rot)) translate(var(--fanA),-3%);z-index:0}
+.deck .c3{transform:translate(-1%,-8%) scale(1.02);z-index:3;box-shadow:0 26px 60px rgba(0,0,0,.6),0 8px 20px rgba(0,0,0,.45)}
+.deck .glow{position:absolute;inset:-12%;z-index:1;background:radial-gradient(60% 50% at 50% 40%,rgba(201,162,39,.16),transparent 70%);pointer-events:none}
+.cap{position:relative;z-index:4;font-family:var(--caps);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#C9A98A;white-space:nowrap;text-align:center;margin-top:30px;background:rgba(13,16,23,.55);padding:6px 14px;border-radius:99px;border:1px solid rgba(201,162,39,.4)}
+@media(max-width:900px){
+  .cap{margin-top:16px;font-size:9px;letter-spacing:.2em;white-space:normal}
+}
+@media (prefers-reduced-motion: no-preference){
+  /* ingresso cinematico: le carte si compongono */
+  .deck .c1{animation:dealL .9s cubic-bezier(.2,.8,.25,1) both}
+  .deck .c2{animation:dealR .9s cubic-bezier(.2,.8,.25,1) .12s both}
+  .deck .c3{animation:dealC .9s cubic-bezier(.2,.8,.25,1) .24s both}
+  @keyframes dealL{from{transform:rotate(-24deg) translate(-46%,6%) scale(.92);opacity:0}to{transform:rotate(calc(var(--rot)*-1)) translate(calc(var(--fanA)*-1),-3%);opacity:1}}
+  @keyframes dealR{from{transform:rotate(24deg) translate(46%,6%) scale(.92);opacity:0}to{transform:rotate(var(--rot)) translate(var(--fanA),-3%);opacity:1}}
+  @keyframes dealC{from{transform:translate(-16%,-20%) scale(.9);opacity:0}to{transform:translate(-1%,-8%) scale(1.02);opacity:1}}
+  /* respiro lento e leggero del mazzo */
+  .deck{animation:breathe 6.5s ease-in-out 1.2s infinite}
+  @keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  /* micro-parallasse al passaggio del mouse (desktop) */
+  @media(hover:hover){
+    .deck{transition:transform .3s ease}
+    .hero-art:hover .deck{transform:translateY(-4px) rotate(-.6deg)}
+  }
+}
+/* override mobile DOPO la base: fan più raccolto su schermi stretti */
+@media(max-width:900px){
+  .deck{width:min(300px,82vw);--fanA:8%;--rot:5deg}
+}
+
+.scroll-hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;font-family:var(--caps);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:#6B5F4E;display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none}
+.scroll-hint::after{content:"";width:1px;height:34px;background:linear-gradient(180deg,var(--gold),transparent);animation:drip 2.2s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ FASCE FRAZIONE (divider) ============ */
+.fax{position:relative;height:120px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.fax::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,var(--red-dim) 0%,var(--red-dim) 46%,var(--civ-dim) 54%,var(--civ-dim) 100%);opacity:.9}
+.fax::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 130% at 50% 50%,transparent 40%,rgba(13,16,23,.55) 100%)}
+.fax .seal{position:relative;z-index:1;width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#E8C55A,#8a6d1a);display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.55), inset 0 2px 6px rgba(255,255,255,.35);font-family:var(--disp);font-size:30px;color:#241C14}
+
+/* ============ IL MAZZO — scroll film (sticky) ============ */
+#mazzo{position:relative;isolation:isolate;background:var(--desk);overflow-x:clip}
+
+/* COPERTINA in alto — cover del mazzo */
+.mz-head{padding:120px 0 40px;background:
+  radial-gradient(120% 90% at 50% 0, #1E2740 0%, rgba(13,16,23,0) 60%), var(--desk)}
+.mz-headgrid{display:grid;grid-template-columns:1.2fr .8fr;gap:52px;align-items:center}
+@media(max-width:900px){.mz-headgrid{grid-template-columns:1fr;gap:26px;padding-top:0}}
+.mz-cover{position:relative;width:min(300px,66vw);margin:0 auto}
+.mz-cover img{width:100%;display:block;border-radius:10px;border:1px solid rgba(201,162,39,.5);
+  box-shadow:0 30px 70px rgba(0,0,0,.6),0 8px 20px rgba(0,0,0,.45)}
+.mz-cover::after{content:"";position:absolute;inset:-10%;background:radial-gradient(60% 55% at 50% 45%,rgba(201,162,39,.16),transparent 70%);z-index:-1}
+.mz-caplabel{position:absolute;left:50%;bottom:-30px;transform:translateX(-50%);
+  font-family:var(--caps);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9b8a68;white-space:nowrap}
+
+/* VISUALIZZATORE (stile Métiq): sezione alta ~300vh, sticky in testa si appiccica subito,
+   le 8 carte scorrono in 200vh = niente scroll blu sprecato */
+.mz-viewer{position:relative;height:300vh}
+.dfsticky{position:sticky;top:0;height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:var(--desk)}
+/* sfondo copertina sfocato dietro le carte */
+.df-bg{position:absolute;inset:0;z-index:0;background-image:url('assets/cover-trim.jpg');
+  background-size:cover;background-position:center 42%;filter:saturate(.85) brightness(.5) blur(16px);
+  transform:scale(1.12);will-change:transform;pointer-events:none}
+.df-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(13,16,23,.9),rgba(13,16,23,.55),rgba(13,16,23,.9))}
+.dfgrid{position:relative;z-index:2;display:grid;place-items:center;width:100%}
+
+/* carta GRANDE, proporzioni cinematiche */
+.df-cardwrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:18px}
+.df-card{position:relative;width:min(400px,72vw);aspect-ratio:63/88;border-radius:12px;overflow:hidden;cursor:pointer;
+  border:1px solid rgba(201,162,39,.5);box-shadow:0 40px 90px rgba(0,0,0,.7),0 10px 26px rgba(0,0,0,.5);
+  transition:transform .35s cubic-bezier(.2,.8,.25,1);will-change:transform}
+.df-card:active{transform:scale(.985)}
+.df-card img{width:100%;height:100%;object-fit:cover;display:block}
+.df-card .flip{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,16,23,.88),rgba(13,16,23,.96));
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;padding:24px;text-align:center;
+  opacity:0;transform:rotateY(12deg);transition:opacity .3s ease,transform .3s ease;pointer-events:none}
+.df-card.aperta .flip{opacity:1;transform:none;pointer-events:auto}
+.df-card .flip b{font-family:var(--caps);font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--manila-hi)}
+.df-card .flip span{font-size:16px;color:#C9BA9C;max-width:32ch}
+.df-card .flip code{font-family:ui-monospace,Menlo,monospace;font-size:14px;color:var(--gold-hi);background:rgba(201,162,39,.14);padding:2px 9px;border-radius:3px}
+.df-card .flip .fx{margin-top:6px;font-family:var(--caps);font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:#8A7C66}
+.df-card .flip .fx2{font-style:italic;color:#B6A88C}
+
+/* progress: nome + dots */
+.df-info{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:6px}
+.df-nome{font-family:var(--disp);font-size:clamp(23px,3vw,30px);color:var(--manila-hi);letter-spacing:.05em;min-height:1.3em;text-shadow:0 3px 18px rgba(0,0,0,.7)}
+.df-nome small{display:block;font-family:var(--caps);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-top:4px}
+.df-dots{display:flex;gap:9px;justify-content:center;margin-top:6px}
+.df-dots i{width:9px;height:9px;border-radius:50%;border:1px solid rgba(201,162,39,.6);transition:background .25s,transform .25s;cursor:pointer}
+.df-dots i.on{background:var(--gold);transform:scale(1.3)}
+.df-hint{font-family:var(--caps);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9b8a68}
+@media(max-width:900px){.df-hint{display:none}}
+
+/* cambio carta — dissolvenza morbida */
+.df-card.swap{animation:cardIn .5s ease both}
+@keyframes cardIn{from{opacity:.25;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.df-card.swap{animation:none}}
+
+/* ============ SEZIONI GENERICHE ============ */
+section{padding:96px 0}
+.eyebrow{font-family:var(--caps);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--gold)}
+h2{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.4vw,46px);line-height:1.08;margin:0 0 14px;color:var(--manila-hi)}
+h2 em{font-style:normal;color:var(--gold-hi)}
+.sub{font-size:18px;color:#C9BA9C;max-width:62ch;margin:0 0 44px;font-style:italic}
+
+/* ============ COME SI GIOCA (fasi) ============ */
+.fasi{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:860px){.fasi{grid-template-columns:1fr}}
+.fase{position:relative;background:linear-gradient(180deg,rgba(235,223,192,.05),rgba(235,223,192,.02));border:1px solid rgba(235,223,192,.14);border-radius:var(--r);padding:26px 24px 24px;transition:transform .2s,border-color .2s}
+.fase:hover{transform:translateY(-4px);border-color:rgba(201,162,39,.5)}
+.fase .num{font-family:var(--disp);font-size:44px;color:rgba(201,162,39,.9);line-height:1;margin-bottom:10px}
+.fase h3{font-family:var(--caps);font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--manila-hi);margin:0 0 10px}
+.fase p{margin:0;font-size:15px;color:#B6A88C}
+.fase .law{margin-top:14px;padding-top:12px;border-top:1px solid rgba(235,223,192,.14);font-family:var(--caps);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.fase.red .num{color:var(--red)}
+.fase.civ .num{color:var(--civ)}
+
+/* ============ I RUOLI (galleria carte) ============ */
+#ruoli{background:linear-gradient(180deg,transparent,rgba(22,28,41,.5) 18%,rgba(22,28,41,.5) 82%,transparent)}
+.fac-line{display:flex;align-items:center;gap:16px;margin:38px 0 20px}
+.fac-line .fn{font-family:var(--caps);font-size:13px;letter-spacing:.3em;text-transform:uppercase}
+.fac-line.civili .fn{color:var(--civ)}
+.fac-line.sicari .fn{color:var(--red)}
+.fac-line::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,currentColor,transparent)}
+.fac-line.civili::after{background:linear-gradient(90deg,rgba(217,182,74,.6),transparent)}
+.fac-line.sicari::after{background:linear-gradient(90deg,rgba(166,42,49,.6),transparent)}
+
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.cards{grid-template-columns:repeat(2,1fr);gap:12px}}
+.pcard{position:relative;border-radius:9px;overflow:hidden;aspect-ratio:63/88;box-shadow:0 14px 34px rgba(0,0,0,.5);border:1px solid rgba(201,162,39,.28);transform-style:preserve-3d;transition:transform .25s ease,box-shadow .25s ease}
+.pcard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.pcard:hover{transform:translateY(-8px) rotate(-1.2deg) scale(1.02);box-shadow:0 26px 60px rgba(0,0,0,.65),0 0 0 1px var(--gold)}
+.pcard:hover img{transform:scale(1.06)}
+.pcard .nm{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 10px;background:linear-gradient(180deg,transparent,rgba(13,16,23,.92));font-family:var(--caps);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--manila-hi);text-align:center}
+.pcard .acts{position:absolute;inset:0;background:rgba(13,16,23,.93);opacity:0;transition:opacity .25s;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:14px;text-align:center}
+.pcard:hover .acts,.pcard:focus-within .acts{opacity:1}
+.pcard .acts b{font-family:var(--caps);font-size:12px;letter-spacing:.2em;color:var(--manila-hi)}
+.pcard .acts span{font-size:13.5px;color:#B6A88C}
+.pcard .acts code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--gold-hi);background:rgba(201,162,39,.12);padding:1px 7px;border-radius:3px}
+
+/* ============ COMPONENTI (tutti i pezzi) ============ */
+.comp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:980px){.comp-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.comp-grid{grid-template-columns:1fr}}
+.comp{display:flex;gap:14px;align-items:center;background:rgba(235,223,192,.04);border:1px solid rgba(235,223,192,.12);border-radius:var(--r);padding:16px}
+.comp .ic{flex:0 0 58px;height:58px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#26324a,#141926);display:grid;place-items:center;font-family:var(--caps);font-weight:700;color:var(--manila-hi);box-shadow:inset 0 2px 6px rgba(255,255,255,.08),0 4px 12px rgba(0,0,0,.4);font-size:15px}
+.comp .ic.img{overflow:hidden;background:none;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.comp .ic.img img{width:100%;height:100%;object-fit:cover}
+.comp b{display:block;font-family:var(--caps);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--manila-hi);margin-bottom:3px}
+.comp span{font-size:13.5px;color:#A2937A}
+
+/* ============ DOWNLOAD ============ */
+#download{position:relative}
+#download::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 0,rgba(201,162,39,.07),transparent 65%)}
+.dl-hero{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end;margin-bottom:34px}
+@media(max-width:760px){.dl-hero{grid-template-columns:1fr}}
+.dl-note{font-family:var(--caps);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#8A7C66;text-align:right}
+@media(max-width:760px){.dl-note{text-align:left}}
+
+/* console in evidenza */
+.dl-console-hero{display:flex;align-items:center;gap:18px;background:linear-gradient(180deg,rgba(166,42,49,.28),rgba(118,26,32,.16));border:1.5px solid var(--red);border-radius:var(--r);padding:18px 22px;margin:0 0 22px;text-decoration:none;transition:transform .18s,box-shadow .25s,border-color .2s;box-shadow:0 10px 34px rgba(118,26,32,.35)}
+.dl-console-hero:hover{transform:translateY(-3px);border-color:#c74a45;box-shadow:0 18px 48px rgba(118,26,32,.5)}
+.dl-console-hero .playbtn{flex:0 0 58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:19px;color:#FBEDD8;background:radial-gradient(circle at 34% 28%,#c74a45,var(--red-dim));box-shadow:inset 0 2px 6px rgba(255,255,255,.25),0 6px 18px rgba(0,0,0,.5);border:1px solid rgba(251,237,216,.35)}
+.dl-console-hero .tx{flex:1;min-width:0}
+.dl-console-hero .tx b{display:block;font-family:var(--disp);font-size:19px;color:var(--manila-hi);letter-spacing:.04em}
+.dl-console-hero .tx span{display:block;font-size:14px;color:#C9A98A;margin-top:3px;font-style:italic}
+.dl-console-hero .go{flex:0 0 auto;font-family:var(--caps);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#0D1017;background:linear-gradient(180deg,var(--gold-hi),var(--gold));padding:12px 20px;border-radius:var(--r);display:inline-flex;align-items:center;gap:8px;box-shadow:0 5px 18px rgba(201,162,39,.4)}
+.dl-console-hero .go .ar{font-family:var(--serif);font-size:14px}
+@media(max-width:640px){
+  .dl-console-hero{gap:12px;padding:14px}
+  .dl-console-hero .playbtn{flex-basis:46px;height:46px;font-size:15px}
+  .dl-console-hero .tx b{font-size:15.5px}
+  .dl-console-hero .tx span{font-size:12px}
+  .dl-console-hero .go{padding:10px 14px;font-size:10.5px}
+}
+
+.dl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:980px){.dl-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.dl-grid{grid-template-columns:1fr}}
+.dl{position:relative;display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,#1C2333,#12161F);border:1px solid rgba(235,223,192,.14);border-radius:var(--r);padding:16px 18px;text-decoration:none;transition:transform .15s,border-color .2s,box-shadow .2s}
+.dl:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 14px 34px rgba(0,0,0,.5)}
+.dl .tag{flex:0 0 40px;height:46px;display:grid;place-items:center;font-family:var(--caps);font-size:10px;font-weight:700;letter-spacing:.05em;color:#0D1017;background:linear-gradient(180deg,var(--gold-hi),var(--gold));border-radius:3px;box-shadow:0 3px 10px rgba(201,162,39,.3)}
+.dl .tx{min-width:0}
+.dl b{display:block;font-family:var(--caps);font-size:12.5px;letter-spacing:.1em;color:var(--manila-hi);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dl span{font-size:12.5px;color:#8A7C66;display:block;margin-top:2px}
+.dl .dmar{margin-left:auto;color:var(--gold);font-size:18px;font-family:var(--serif);flex:0 0 auto}
+.dl.total{grid-column:1/-1;justify-content:center;background:linear-gradient(180deg,rgba(201,162,39,.16),rgba(201,162,39,.05));border-color:var(--gold)}
+.dl.total b{font-size:14px;letter-spacing:.2em}
+.dl.console{border-color:rgba(166,42,49,.5)}
+.dl.console .tag{background:linear-gradient(180deg,#c74a45,var(--red));color:#FBEDD8}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid rgba(201,162,39,.2);padding:34px 0 40px;background:rgba(9,11,16,.6)}
+.fgrid{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.fbrand{font-family:var(--disp);font-size:17px;color:var(--manila-dim)}
+.fbrand span{color:var(--gold)}
+.fmeta{font-family:var(--caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#6B5F4E}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <div class="logo"><span class="fleur">❦</span>DEDUCO</div>
+    <a href="#gioco">Il gioco</a>
+    <a href="#mazzo">Il mazzo</a>
+    <a href="#ruoli">I ruoli</a>
+    <a href="#scatola">Nella scatola</a>
+    <a href="#download">Download</a>
+    <a class="cta" href="#download">Scarica il set</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="kicker">Gioco di deduzione sociale · 4–8 giocatori</div>
+      <h1>Un mandante.<br><span class="dual">Otto sospetti.</span></h1>
+      <p class="tagline">Nessuno sa chi è chi. <b>Ogni turno, tutti agiscono in segreto.</b></p>
+      <p class="lead">Un ordine di morte pende su una persona seduta al tuo stesso tavolo. Si interroga, si protegge, si colpisce — scrivendo in silenzio sulla propria tessera. Sei ferite chiudono la partita. Chi cade, <em>decide chi vince</em>.</p>
+      <div class="hero-cta">
+        <a class="btn gold" href="#download">Scarica e stampa <span class="ar">↓</span></a>
+        <a class="btn ghost" href="#gioco">Come si gioca</a>
+      </div>
+      <div class="hero-meta">
+        <div class="hm"><b>4–8</b><span>giocatori</span></div>
+        <div class="hm"><b>20′</b><span>una partita</span></div>
+        <div class="hm"><b>14+</b><span>età</span></div>
+        <div class="hm"><b>Print&amp;Play</b><span>stampa e gioca</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="deck">
+        <div class="card3d c1"><img src="assets/cards/cittadino.jpg" alt="Il Cittadino" loading="eager"></div>
+        <div class="card3d c2"><img src="assets/cards/assassino.jpg" alt="L'Assassino" loading="eager"></div>
+        <div class="card3d c3"><img src="assets/cover-trim.jpg" alt="Copertina Deduco" loading="eager"></div>
+        <div class="glow"></div>
+      </div>
+      <div class="cap">gialli i civili · rossi i sicari</div>
+    </div>
+  </div>
+  <a class="scroll-hint" href="#gioco">scorri</a>
+</section>
+
+<div class="fax"><div class="seal">❦</div></div>
+
+<!-- ============ COME SI GIOCA ============ -->
+<section id="gioco">
+  <div class="wrap">
+    <div class="eyebrow rv">Il turno</div>
+    <h2 class="rv">Tre fasi. <em>Nessuna esitazione.</em></h2>
+    <p class="sub rv">Ogni turno scorre sempre uguale, sempre teso: prima le parole, poi i voti, infine il silenzio della penna.</p>
+    <div class="fasi">
+      <div class="fase rv">
+        <div class="num">I</div>
+        <h3>Interrogatorio</h3>
+        <p>Dal numero uno in ordine, chi vuole fa <b>una domanda chiusa</b>. L'interrogato risponde in segreto col gettone SÌ/NO e deve dire la verità.</p>
+        <div class="law">Una domanda sola · per tutta la partita</div>
+      </div>
+      <div class="fase civ rv">
+        <div class="num">II</div>
+        <h3>Protezione</h3>
+        <p>Tutti indicano insieme chi proteggere, al conto di tre. Chi prende più voti è <b>immune agli attacchi</b> del turno — ma può comunque agire.</p>
+        <div class="law">In parità non si protegge nessuno</div>
+      </div>
+      <div class="fase red rv">
+        <div class="num">III</div>
+        <h3>Azione</h3>
+        <p>Ognuno scrive in segreto il simbolo <b>nello spazio del proprio colore</b>. Le tessere raccolte e mescolate si rivelano: si vede la fazione, mai la mano.</p>
+        <div class="law">Difese → ferite → cura</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IL MAZZO (scroll film) ============ -->
+<section id="mazzo" style="padding:0">
+  <div class="mz-viewer" id="mzViewer">
+    <div class="dfsticky">
+      <div class="df-bg"></div>
+      <div class="wrap dfgrid">
+        <div class="df-cardwrap">
+          <div class="df-card" id="dfCard" role="button" tabindex="0" aria-label="Carta corrente, tocca per le abilità">
+            <img id="dfImg" src="assets/cards/detective.jpg" alt="">
+            <div class="flip" id="dfFlip"></div>
+          </div>
+          <div class="df-info">
+            <div class="df-nome" id="dfNome">Il Detective<small>fazione civili</small></div>
+            <div class="df-dots" id="dfDots"></div>
+            <div class="df-hint">scorri per cambiare carta · tocca per le abilità</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fax"><div class="seal">❦</div></div>
+
+<!-- ============ RUOLI ============ -->
+<section id="ruoli">
+  <div class="wrap">
+    <div class="eyebrow rv">Le fazioni</div>
+    <h2 class="rv">Otto ruoli. <em>Due anime.</em></h2>
+    <p class="sub rv">Passa il mouse sulle carte per scoprire le azioni di ciascun ruolo. L'asterisco segna i poteri che valgono una volta sola per partita.</p>
+
+    <div class="fac-line civili rv"><span class="fn">Fazione Civili — gialli</span></div>
+    <div class="cards">
+<div class="pcard rv" tabindex="0"><img src="assets/cards/detective.jpg" alt="Il Detective" loading="lazy"><div class="nm">Il Detective</div>
+        <div class="acts"><b>Il Detective</b><span>Colpire · Passare · <b>Indagare*</b></span><code>3→1</code><span>Un giocatore mostra il ruolo a un altro</span></div></div>
+      <div class="pcard rv" tabindex="0"><img src="assets/cards/bodyguard.jpg" alt="Il Bodyguard" loading="lazy"><div class="nm">Il Bodyguard</div>
+        <div class="acts"><b>Il Bodyguard</b><span>Colpire · Passare · <b>Difendere</b></span><code>(1) (2)</code><span>Annulla una ferita al bersaglio, mai su di sé</span></div></div>
+      <div class="pcard rv" tabindex="0"><img src="assets/cards/medico.jpg" alt="Il Medico" loading="lazy"><div class="nm">Il Medico</div>
+        <div class="acts"><b>Il Medico</b><span>Colpire · Passare · <b>Curare*</b></span><code>1–– 2––</code><span>Toglie 2 ferite, a fine fase</span></div></div>
+      <div class="pcard rv" tabindex="0"><img src="assets/cards/cittadino.jpg" alt="Il Cittadino" loading="lazy"><div class="nm">Il Cittadino</div>
+        <div class="acts"><b>Il Cittadino</b><span>Colpire · Passare</span><code>X</code><span>La sua caduta dà la vittoria ai sicari</span></div></div>
+      </div>
+
+    <div class="fac-line sicari rv"><span class="fn">Fazione Sicari — rossi</span></div>
+    <div class="cards">
+<div class="pcard rv" tabindex="0"><img src="assets/cards/assassino.jpg" alt="L'Assassino" loading="lazy"><div class="nm">L'Assassino</div>
+        <div class="acts"><b>L'Assassino</b><span>Colpire · <b>Minacciare*</b></span><code>#</code><span>L'unico senza Passare: colpisce ogni turno</span></div></div>
+      <div class="pcard rv" tabindex="0"><img src="assets/cards/sciamano.jpg" alt="Lo Sciamano" loading="lazy"><div class="nm">Lo Sciamano</div>
+        <div class="acts"><b>Lo Sciamano</b><span>Colpire · Passare · <b>Rituale*</b></span><code>2&gt;1</code><span>Trasferisce ferite da un giocatore a un altro</span></div></div>
+      <div class="pcard rv" tabindex="0"><img src="assets/cards/cecchino.jpg" alt="Il Cecchino" loading="lazy"><div class="nm">Il Cecchino</div>
+        <div class="acts"><b>Il Cecchino</b><span>Colpire · Passare · <b>Doppio Colpo*</b></span><code>1++ 2++</code><span>Due ferite in un colpo solo</span></div></div>
+      <div class="pcard rv" tabindex="0"><img src="assets/cards/spia.jpg" alt="La Spia" loading="lazy"><div class="nm">La Spia</div>
+        <div class="acts"><b>La Spia</b><span>Colpire · Passare · <b>Pedinare*</b></span><code>2→5</code><span>Svela il ruolo di un altro giocatore</span></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="fax"><div class="seal" style="font-size:22px">VI</div></div>
+
+<!-- ============ NELLA SCATOLA ============ -->
+<section id="scatola">
+  <div class="wrap">
+    <div class="eyebrow rv">Nella scatola</div>
+    <h2 class="rv">Tutto ciò che serve. <em>Niente di più.</em></h2>
+    <p class="sub rv">Ogni componente nasce per essere stampato, tagliato e rigiocato: le tessere-azione si scrivono a pennarello e si cancellano con un panno umido.</p>
+    <div class="comp-grid">
+      <div class="comp rv"><div class="ic img"><img src="assets/cards/cittadino.jpg" alt=""></div><div><b>8 carte ruolo</b><span>63×88 mm · fronte/retro</span></div></div>
+      <div class="comp rv"><div class="ic img"><img src="assets/cards/tessera.jpg" alt=""></div><div><b>10 tessere-azione</b><span>riscrivibili · giallo/rosso</span></div></div>
+      <div class="comp rv"><div class="ic img"><img src="assets/tok/colpo.png" alt=""></div><div><b>60 colpi</b><span>gettoni ferita · Ø 24 mm</span></div></div>
+      <div class="comp rv"><div class="ic img"><img src="assets/tok/token-si.png" alt=""></div><div><b>24 gettoni</b><span>SÌ · NO · Interroga · Protetto</span></div></div>
+      <div class="comp rv"><div class="ic img"><img src="assets/tok/token-num-3.png" alt=""></div><div><b>8 gettoni ordine</b><span>il posto è il numero · Ø 30 mm</span></div></div>
+      <div class="comp rv"><div class="ic">P</div><div><b>2 plance</b><span>giocatore + centrale fazioni</span></div></div>
+      <div class="comp rv"><div class="ic">❦</div><div><b>Guida + schede</b><span>regole illustrate · 4 riferimenti</span></div></div>
+      <div class="comp rv"><div class="ic">▶</div><div><b>Console narratore</b><span>audio e registro · nel browser</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DOWNLOAD ============ -->
+<section id="download">
+  <div class="wrap">
+    <div class="dl-hero">
+      <div>
+        <div class="eyebrow rv">Download</div>
+        <h2 class="rv">Stampa. Taglia. <em>Gioca.</em></h2>
+        <p class="sub rv" style="margin-bottom:0">Scala 100% · carta 200–300 g · i fronte/retro vanno stampati in duplex con flip sul bordo lungo.</p>
+      </div>
+      <div class="dl-note rv">13 PDF · set completo</div>
+    </div>
+
+    <!-- CONSOLE IN EVIDENZA -->
+    <a class="dl-console-hero rv" href="pdf/Deduco-console.html" download>
+      <span class="playbtn">▶</span>
+      <span class="tx">
+        <b>Console del narratore</b>
+        <span>La voce che guida la partita: apre nel browser, anche offline · v1.8</span>
+      </span>
+      <span class="go">Scarica<span class="ar">↓</span></span>
+    </a>
+
+    <div class="dl-grid">
+      <a class="dl rv" href="pdf/01-carte-ruolo.pdf" download><span class="tag">01</span><span class="tx"><b>Carte ruolo ×8</b><span>63×88 · duplex bordo lungo</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/02-tessere-azione.pdf" download><span class="tag">02</span><span class="tx"><b>Tessere-azione ×10</b><span>riscrivibili · duplex</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/03-colpi-ferite.pdf" download><span class="tag">03</span><span class="tx"><b>Colpi ×60</b><span>gettoni ferita · Ø 24 mm</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/04-gettoni-si-no-interroga-protetto.pdf" download><span class="tag">04</span><span class="tx"><b>Gettoni ×24</b><span>SÌ · NO · Interroga · Protetto</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/05-gettoni-ordine.pdf" download><span class="tag">05</span><span class="tx"><b>Gettoni ordine ×8</b><span>il posto è il numero</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/06-plancia-giocatore.pdf" download><span class="tag">06</span><span class="tx"><b>Plancia giocatore</b><span>secret card + 6 caselle colpi</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/07-plancia-centrale.pdf" download><span class="tag">07</span><span class="tx"><b>Plancia centrale</b><span>fazioni · A4 orizzontale</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/08-plancia-centrale-x4.pdf" download><span class="tag">08</span><span class="tx"><b>Plancia centrale ×4</b><span>quattro per foglio</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/09-schede-ruoli-simboli.pdf" download><span class="tag">09</span><span class="tx"><b>Schede di gioco ×4</b><span>ruoli/simboli · duplex</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/10-guida-narratore.pdf" download><span class="tag">10</span><span class="tx"><b>Guida del narratore</b><span>4 pagine illustrate</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/11-scatola-copertina.pdf" download><span class="tag">11</span><span class="tx"><b>Copertina scatola</b><span>wrap 180×130×40</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/12-fasi-segnalini.pdf" download><span class="tag">12</span><span class="tx"><b>Segnalini fase</b><span>interrog. · protez. · azione</span></span><span class="dmar">↓</span></a>
+      <a class="dl rv" href="pdf/13-registro-narratore.pdf" download><span class="tag">13</span><span class="tx"><b>Registro narratore</b><span>riscrivibile su pellicola</span></span><span class="dmar">↓</span></a>
+      <a class="dl total rv" href="https://github.com/inferis995/deduco/archive/refs/heads/main.zip" download><span class="tx" style="text-align:center"><b>↓  Scarica tutto il set (GitHub)</b></span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fgrid">
+    <div class="fbrand">DEDUCO <span>❦</span> Print Edition</div>
+    <div class="fmeta">di Giovanni Addeo · 4–8 giocatori · 20 minuti · 14+</div>
+    <div class="fmeta">Tutti i diritti riservati</div>
+  </div>
+</footer>
+
+<script>
+// reveal on scroll
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12, rootMargin:"0px 0px -40px 0px"});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+// header shadow on scroll
+const hd = document.querySelector('header');
+addEventListener('scroll',()=>{ hd.style.boxShadow = scrollY>40 ? '0 10px 30px rgba(0,0,0,.5)' : 'none'; },{passive:true});
+
+// ============ IL MAZZO — scroll film ============
+(()=>{
+  const MAZZO=[
+    {img:"detective", nome:"Il Detective",  fz:"fazione civili",  az:"Colpire · Passare · Indagare*", sym:"3→1",    fx:"Un giocatore mostra il ruolo a un altro"},
+    {img:"bodyguard", nome:"Il Bodyguard",  fz:"fazione civili",  az:"Colpire · Passare · Difendere",  sym:"(1) (2)",fx:"Annulla una ferita al bersaglio, mai su di sé"},
+    {img:"medico",    nome:"Il Medico",     fz:"fazione civili",  az:"Colpire · Passare · Curare*",    sym:"1–– 2––",fx:"Toglie 2 ferite, a fine fase"},
+    {img:"cittadino", nome:"Il Cittadino",  fz:"fazione civili",  az:"Colpire · Passare",              sym:"X",       fx:"La sua caduta dà la vittoria ai sicari"},
+    {img:"assassino", nome:"L'Assassino",   fz:"fazione sicari",  az:"Colpire · Minacciare*",          sym:"#",       fx:"L'unico senza Passare: colpisce ogni turno"},
+    {img:"sciamano",  nome:"Lo Sciamano",   fz:"fazione sicari",  az:"Colpire · Passare · Rituale*",   sym:"2>1",     fx:"Trasferisce ferite da un giocatore a un altro"},
+    {img:"cecchino",  nome:"Il Cecchino",   fz:"fazione sicari",  az:"Colpire · Passare · Doppio Colpo*",sym:"1++ 2++",fx:"Due ferite in un colpo solo"},
+    {img:"spia",      nome:"La Spia",       fz:"fazione sicari",  az:"Colpire · Passare · Pedinare*",  sym:"2→5",     fx:"Svela il ruolo di un altro giocatore"},
+  ];
+  const film=document.querySelector('.mz-viewer');
+  if(!film) return;
+  const sticky=film.querySelector('.dfsticky');
+  const card=document.getElementById('dfCard'), img=document.getElementById('dfImg'),
+        flip=document.getElementById('dfFlip'), nome=document.getElementById('dfNome'),
+        dots=document.getElementById('dfDots');
+  let cur=-1, aperta=false;
+  const N=MAZZO.length;
+
+  // dots
+  MAZZO.forEach((c,i)=>{
+    const d=document.createElement('i');
+    d.setAttribute('aria-label',c.nome);
+    d.addEventListener('click',()=>{ // click sul dot = salta alla carta (scroll)
+      const sc=film.offsetHeight-innerHeight;
+      const top=film.getBoundingClientRect().top+scrollY + (i+0.5)/N*sc;
+      scrollTo({top: top- innerHeight*0.15, behavior:'smooth'});
+    });
+    dots.appendChild(d);
+  });
+  const dotEls=[...dots.children];
+
+  function paint(i, animate){
+    if(i===cur) return;
+    cur=i; aperta=false;
+    const c=MAZZO[i];
+    img.src=`assets/cards/${c.img}.jpg?k=${i}`;
+    img.alt=c.nome;
+    nome.innerHTML=`${c.nome}<small>${c.fz}</small>`;
+    flip.innerHTML=`<b>${c.nome}</b><span>${c.az.replace(/\*/g,'')}</span><code>${c.sym}</code><span class="fx2">${c.fx}</span><span class="fx">l'asterisco: una volta sola</span>`;
+    card.classList.remove('aperta');
+    dotEls.forEach((d,k)=>d.classList.toggle('on',k===i));
+    // micro-parallasse dello sfondo in base alla carta
+    if(animate && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap');
+      if(bg){ bg.style.transform=`scale(1.12) translateY(${(i-(N-1)/2)*5}px)`; bg.style.transition='transform .6s ease'; }
+    }
+  }
+
+  // tap/click sulla carta = apri/chiudi abilità
+  const toggle=()=>{ card.classList.toggle('aperta'); aperta=!aperta; };
+  card.addEventListener('click',toggle);
+  card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+
+  // cambia carta guidata dallo scroll (stile Métiq, lerp fluido)
+  const bg=document.querySelector('.df-bg');
+  const secTop=()=> film.getBoundingClientRect().top+scrollY;
+  const scrollable=()=>film.offsetHeight - innerHeight;  // 300vh-100vh: 200vh per 8 carte
+  let targetP=0, curP=0;
+  const upd=()=>{
+    const sc=scrollable();
+    if(sc<=0) return;
+    targetP = Math.min(1, Math.max(0, (scrollY-secTop())/sc));
+  };
+  (function loop(){
+    curP += (targetP-curP)*0.35;
+    if(Math.abs(curP-targetP)>0.001){
+      const i=Math.min(N-1, Math.floor(curP*N));
+      paint(i,false);
+      if(bg) bg.style.backgroundPosition=`center ${38+curP*20}%`;
+    }
+    requestAnimationFrame(loop);
+  })();
+  addEventListener('scroll',upd,{passive:true});
+  addEventListener('resize',upd);
+  upd();
+})();
+</script>
+</body>
+</html>
