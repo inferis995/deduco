@@ -532,14 +532,31 @@ footer{border-top:1px solid rgba(201,162,39,.2);padding:34px 0 40px;background:r
     </div>
 
     <!-- CONSOLE IN EVIDENZA -->
-    <a class="dl-console-hero rv" href="pdf/Deduco-console.html" download>
-      <span class="playbtn">▶</span>
-      <span class="tx">
-        <b>Console del narratore</b>
-        <span>La voce che guida la partita: apre nel browser, anche offline · v1.8</span>
-      </span>
-      <span class="go">Scarica<span class="ar">↓</span></span>
-    </a>
+    <div class="dl-console-hero rv">
+      <a class="con-play" href="pdf/Deduco-console.html" target="_blank" rel="noopener" aria-label="Apri la console del narratore">
+        <span class="playbtn">▶</span>
+        <span class="tx">
+          <b>Console del narratore</b>
+          <span>La voce che guida la partita: apre nel browser, anche offline · v1.8</span>
+        </span>
+      </a>
+      <a class="go" href="pdf/Deduco-console.html" download>Scarica<span class="ar">↓</span></a>
+    </div>
+    <style>
+      .dl-console-hero{border:1px solid rgba(201,162,39,.45);border-radius:14px;background:linear-gradient(90deg,rgba(118,26,32,.18),rgba(13,16,23,.6) 55%);display:flex;align-items:stretch;gap:0;margin:0 0 22px;overflow:hidden}
+      .dl-console-hero .con-play{display:flex;align-items:center;gap:16px;padding:20px 22px;flex:1;text-decoration:none;min-width:0}
+      .dl-console-hero .playbtn{width:52px;height:52px;flex:0 0 auto;border-radius:50%;background:linear-gradient(180deg,var(--gold-hi),var(--gold));display:grid;place-items:center;font-size:18px;color:#0D1017;box-shadow:0 6px 20px rgba(201,162,39,.4)}
+      .dl-console-hero .tx{display:flex;flex-direction:column;gap:5px;min-width:0}
+      .dl-console-hero .tx b{font-family:var(--caps);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--manila-hi)}
+      .dl-console-hero .tx span{font-size:13px;color:#B6A88C;line-height:1.4}
+      .dl-console-hero .go{flex:0 0 auto;align-self:center;margin-right:20px;font-family:var(--caps);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#0D1017;background:linear-gradient(180deg,var(--gold-hi),var(--gold));padding:12px 18px;border-radius:99px;text-decoration:none;font-weight:700;white-space:nowrap}
+      .dl-console-hero .go:visited{color:#0D1017 !important}
+      @media(max-width:520px){
+        .dl-console-hero{flex-direction:column;align-items:stretch}
+        .dl-console-hero .con-play{padding:16px 16px 12px}
+        .dl-console-hero .go{align-self:flex-start;margin:0 16px 16px;padding:11px 20px}
+      }
+    </style>
 
     <div class="dl-grid">
       <a class="dl rv" href="pdf/01-carte-ruolo.pdf" download><span class="tag">01</span><span class="tx"><b>Carte ruolo ×8</b><span>63×88 · duplex bordo lungo</span></span><span class="dmar">↓</span></a>
