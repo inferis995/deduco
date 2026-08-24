@@ -688,22 +688,22 @@ addEventListener('scroll',()=>{ hd.style.boxShadow = scrollY>40 ? '0 10px 30px r
     btn.classList.add('loading');
     btn.innerHTML='Scarico…<span class="ar"></span>';
     try{
-      // 1) scarica lo zip come stream
-      const res=await fetch('pdf/Deduco-console.zip',{cache:'no-cache'});
+      // 1) scarica il file HTML console come stream
+      const res=await fetch('pdf/Deduco-console.html',{cache:'no-cache'});
       if(!res.ok) throw new Error('HTTP '+res.status);
       const blob=await res.blob();
-      // 2) crea URL temporaneo e forza il download col nome giusto
+      // 2) crea URL temporaneo e forza il download come file .html
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
-      a.href=url; a.download='Deduco-console.zip';
+      a.href=url; a.download='Deduco-console.html';
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(()=>URL.revokeObjectURL(url),4000);
-      btn.classList.remove('loading');
+      btn.classList.remove('loading'); btn.innerHTML=orig;
     }catch(e){
-      // fallback: se il Blob fallisce, apri direttamente lo zip (il browser lo salverà o mostrerà)
-      btn.innerHTML='Apri lo zip<span class="ar"></span>';
+      // fallback: apri direttamente l'html (il browser lo salverà o mostrerà)
+      btn.innerHTML='Scarica di nuovo<span class="ar"></span>';
       const a=document.createElement('a');
-      a.href='pdf/Deduco-console.zip'; a.download='Deduco-console.zip';
+      a.href='pdf/Deduco-console.html'; a.download='Deduco-console.html';
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(()=>{ btn.classList.remove('loading'); btn.innerHTML=orig; },3000);
     }
