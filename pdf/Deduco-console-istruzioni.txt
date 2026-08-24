@@ -1,0 +1,4 @@
+DEDUCO - Console del Narratore
+==============================
+
+Scarica Deduco-console.zip, estrailo e apri Deduco-console.html nel browser (anche offline).
