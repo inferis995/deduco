@@ -308,6 +308,20 @@ h2 em{font-style:normal;color:var(--gold-hi)}
 .comp b{display:block;font-family:var(--caps);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--manila-hi);margin-bottom:3px}
 .comp span{font-size:13.5px;color:#A2937A}
 
+.dl.cons{display:flex;align-items:center;gap:12px;width:100%;background:linear-gradient(90deg,rgba(118,26,32,.12),rgba(13,16,23,.5));border:1px solid rgba(201,162,39,.5);border-radius:14px;padding:16px 18px;margin-bottom:4px}
+.dl.cons .tag{font-size:20px}
+.dl.cons .cons-btns{display:flex;gap:8px;margin-left:auto;flex-wrap:nowrap}
+.dl.cons .cons-open,.dl.cons .cons-dl{font-family:var(--caps);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:10px 16px;border-radius:99px;white-space:nowrap;font-weight:700}
+.dl.cons .cons-open{color:var(--manila-hi);border:1px solid rgba(235,223,192,.4)}
+.dl.cons .cons-open:visited{color:var(--manila-hi) !important}
+.dl.cons .cons-dl{color:#0D1017;background:linear-gradient(180deg,var(--gold-hi),var(--gold))}
+.dl.cons .cons-dl:visited{color:#0D1017 !important}
+@media(max-width:520px){
+  .dl.cons{flex-wrap:wrap;padding:14px}
+  .dl.cons .tx{flex:1;min-width:0}
+  .dl.cons .cons-btns{margin-left:0;width:100%;justify-content:flex-end}
+}
+
 /* ============ DOWNLOAD ============ */
 #download{position:relative}
 #download::before{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 0,rgba(201,162,39,.07),transparent 65%)}
@@ -532,7 +546,13 @@ footer{border-top:1px solid rgba(201,162,39,.2);padding:34px 0 40px;background:r
     </div>
 
     <div class="dl-grid">
-      <a class="dl rv" href="pdf/Deduco-console.html" download><span class="tag">▶</span><span class="tx"><b>Console del narratore</b><span>guida vocale · si apre nel browser</span></span><span class="dmar">↓</span></a>
+      <div class="dl cons rv" style="grid-column:1/-1;gap:6px">
+        <span class="tag">▶</span><span class="tx"><b>Console del narratore</b><span>guida vocale · si apre nel browser, anche offline</span></span>
+        <span class="cons-btns">
+          <a class="cons-open" href="pdf/Deduco-console.html" target="_blank" rel="noopener">Apri</a>
+          <a class="cons-dl" href="pdf/Deduco-console.html" download>Scarica</a>
+        </span>
+      </div>
       <a class="dl rv" href="pdf/01-carte-ruolo.pdf" download><span class="tag">01</span><span class="tx"><b>Carte ruolo ×8</b><span>63×88 · duplex bordo lungo</span></span><span class="dmar">↓</span></a>
       <a class="dl rv" href="pdf/02-tessere-azione.pdf" download><span class="tag">02</span><span class="tx"><b>Tessere-azione ×10</b><span>riscrivibili · duplex</span></span><span class="dmar">↓</span></a>
       <a class="dl rv" href="pdf/03-colpi-ferite.pdf" download><span class="tag">03</span><span class="tx"><b>Colpi ×60</b><span>gettoni ferita · Ø 24 mm</span></span><span class="dmar">↓</span></a>
